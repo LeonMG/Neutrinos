@@ -7343,20 +7343,21 @@ int perturb_derivs(double tau,
                  // non-standard term, non-zero if cvis2_ur not 1/3
                  -(1.-ppt->three_cvis2_ur)*(8./15.*(y[pv->index_pt_theta_ur]+metric_shear))) 
           //RTA self interaction 
-                 +0.5*0.4*(-a*pow(10,-6)*pow(pba->T_cmb*pow(4/11,1/3)*(1.+z),5));
+                 + 0.5*0.4*( -a *pow(10,-6)* pow((pba->T_cmb)*(1.+z)*1.40101966533,5)*2.*s_l[3]*s_l[2]*y[pv->index_pt_shear_ur] );
+       // ---------alpha--- a- Geff2-----T_nu^5------------------------------------F_nu2
           /** - -----> exact ur l=3 */
           l = 3;
           dy[pv->index_pt_l3_ur] = k/(2.*l+1.)*
             (l*2.*s_l[l]*s_l[2]*y[pv->index_pt_shear_ur]-(l+1.)*s_l[l+1]*y[pv->index_pt_l3_ur+1])
               //RTA self interaction 
-            +0.43*(-a*pow(10,-6)*pow(pba->T_cmb*pow(4/11,1/3)*(1.+z),5));
+            +0.43*(-a*pow(10,-6)*pow((pba->T_cmb)*1.40101966533*(1.+z),5)*s_l[3]*y[pv->index_pt_l3_ur] );
 
           /** - -----> exact ur l>3 */
           for (l = 4; l < pv->l_max_ur; l++) {
             dy[pv->index_pt_delta_ur+l] = k/(2.*l+1)*
               (l*s_l[l]*y[pv->index_pt_delta_ur+l-1]-(l+1.)*s_l[l+1]*y[pv->index_pt_delta_ur+l+1])
               //RTA self interaction 
-              +0.47*(-a*pow(10,-6)*pow(pba->T_cmb*pow(4/11,1/3)*(1.+z),5));
+              +0.47*(-a*pow(10,-6)*pow(pba->T_cmb*1.40101966533*(1.+z),5)*s_l[l]*y[pv->index_pt_delta_ur+l]);
 
           }
 

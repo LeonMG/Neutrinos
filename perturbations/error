@@ -1,5 +1,4 @@
-Este es el error que me arroja class al correrlo con los terminos de autointeraccion de neutrinos:
-
+This is the error CLASS generates when running it with neutrino selfinteraction terms:
 
 Error in perturb_init 
 =>perturb_init(L:392) :error in perturb_solve(ppr, pba, pth, ppt, index_md, index_ic, index_k, pppw[thread]);
