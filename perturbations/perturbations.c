@@ -6868,6 +6868,9 @@ int perturb_derivs(double tau,
 
   /* for use with dcdm and dr */
   double f_dr, fprime_dr;
+  
+  /*for use with neutrinos with self interactions  */
+double neutrino_visibility;
 
   /** - rename the fields of the input structure (just to avoid heavy notations) */
 
@@ -7319,6 +7322,8 @@ int perturb_derivs(double tau,
 
       if (ppw->approx[ppw->index_ap_rsa] == (int)rsa_off) {
 
+        neutrino_visibility=0*(-a)*pow(10,-10)*pow((pba->T_cmb)*(1.+z)*1.40101966533,5);/*neutrino visibility function for selfinteractions*/
+
         /** - -----> ur density */
         dy[pv->index_pt_delta_ur] =
           // standard term
@@ -7333,35 +7338,44 @@ int perturb_derivs(double tau,
           // non-standard term, non-zero if ceff2_ur not 1/3
           -(1.-ppt->three_ceff2_ur)*a_prime_over_a*y[pv->index_pt_theta_ur];
 
-        if(ppw->approx[ppw->index_ap_ufa] == (int)ufa_off) {
+       if(ppw->approx[ppw->index_ap_ufa] == (int)ufa_off) {
 
           /** - -----> exact ur shear */
+  
+          
+          
           dy[pv->index_pt_shear_ur] =
             0.5*(
                  // standard term
                  8./15.*(y[pv->index_pt_theta_ur]+metric_shear)-3./5.*k*s_l[3]/s_l[2]*y[pv->index_pt_shear_ur+1]
                  // non-standard term, non-zero if cvis2_ur not 1/3
                  -(1.-ppt->three_cvis2_ur)*(8./15.*(y[pv->index_pt_theta_ur]+metric_shear))) 
-          //RTA self interaction 
-                 + 0.5*0.4*( -a *pow(10,-6)* pow((pba->T_cmb)*(1.+z)*1.40101966533,5)*2.*s_l[3]*s_l[2]*y[pv->index_pt_shear_ur] );
-       // ---------alpha--- a- Geff2-----T_nu^5------------------------------------F_nu2
+                //RTA self interaction 
+                 + 0.5*0.4*(neutrino_visibility*2.*s_l[3]*s_l[2]*y[pv->index_pt_shear_ur] );
+                // ---------alpha--- a- Geff2-----T_nu^5------------------------------------F_nu2
+          
+          
           /** - -----> exact ur l=3 */
           l = 3;
           dy[pv->index_pt_l3_ur] = k/(2.*l+1.)*
             (l*2.*s_l[l]*s_l[2]*y[pv->index_pt_shear_ur]-(l+1.)*s_l[l+1]*y[pv->index_pt_l3_ur+1])
               //RTA self interaction 
-            +0.43*(-a*pow(10,-6)*pow((pba->T_cmb)*1.40101966533*(1.+z),5)*s_l[3]*y[pv->index_pt_l3_ur] );
+            +0.43*(neutrino_visibility*s_l[3]*y[pv->index_pt_l3_ur] );
 
           /** - -----> exact ur l>3 */
+          
+          
           for (l = 4; l < pv->l_max_ur; l++) {
             dy[pv->index_pt_delta_ur+l] = k/(2.*l+1)*
               (l*s_l[l]*y[pv->index_pt_delta_ur+l-1]-(l+1.)*s_l[l+1]*y[pv->index_pt_delta_ur+l+1])
               //RTA self interaction 
-              +0.47*(-a*pow(10,-6)*pow(pba->T_cmb*1.40101966533*(1.+z),5)*s_l[l]*y[pv->index_pt_delta_ur+l]);
+              +0.47*(neutrino_visibility*s_l[l]*y[pv->index_pt_delta_ur+l]);
 
           }
 
           /** - -----> exact ur lmax_ur */
+         
+         
           l = pv->l_max_ur;
           dy[pv->index_pt_delta_ur+l] =
             k*(s_l[l]*y[pv->index_pt_delta_ur+l-1]-(1.+l)*cotKgen*y[pv->index_pt_delta_ur+l]);
