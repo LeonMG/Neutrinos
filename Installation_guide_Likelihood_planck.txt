@@ -1,0 +1,72 @@
+Instalación de Likelihood de Planck para ATOCATL
+
+Requires Pyfits that its fails to install automatically.
+Requires intel module but not the intel compilers by default but intel/12.0.4
+I installed using python/ananconda 2.7
+I installed all the python requirements with condo commands
+
+
+Download Pyfits from here:
+
+
+Instalación de PyFits
+(from http://vanderbiltastro.pbworks.com/w/page/38863154/Installing%20Python%20Modules%20%28PyFits%29)
+
+1.-unpack the tarfile (tar -xvzf <archivename>)
+2.-go to the created subfolder
+3.-mostly optional: type "python setup.py build”
+4.- install by one of these commands:
+	python setup.py install (requires root permission)
+	python setup.py install --home=<install-dir>
+		then add  <install-dir>/lib/python to your PYTHONPATH
+	python setup.py install --prefix=<install-dir>
+		then add  <install-dir>/lib/python2.7/site-packages to your PYTHONPATH
+5.-Leave the installation  folder, start the interpreter and try import <modulename> followed by dir(<modulename>) and/or help("<modulename>") 
+
+
+python2 waf configure --lapack_mkl=/export/opt/apps/compilers/intel/12.0/composerxe-2011.4.191/mkl/ --m64 —cfitsio_install
+
+./waf install
+
+montepython/MontePython.py run -p param_examples/base.param -o output/ -N5
+ /!\ Appending to an existing folder: using the log.param instead of
+     param_examples/base.param
+Running Monte Python v2.2.2
+
+ /!\ Your code location in the log.param file is in contradiction with your
+     .conf file. I will use the one from log.param.
+with CLASS v2.5.1
+
+Testing likelihoods for:
+ -> fake_planck_bluebook
+
+Initialised likelihood_mock_cmb with following options:
+  unlensed_clTTTEEE is False
+  Bmodes is False
+  delensing is False
+  LensingExtraction is False
+  neglect_TD is True
+
+Creating output/2018-04-25_5__5.txt
+
+
+Deduced starting covariance matrix:
+['omega_b', 'omega_cdm', 'n_s', 'A_s', 'h', 'tau_reio']
+[[2.56e-04 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00]
+ [0.00e+00 2.56e-06 0.00e+00 0.00e+00 0.00e+00 0.00e+00]
+ [0.00e+00 0.00e+00 1.60e-05 0.00e+00 0.00e+00 0.00e+00]
+ [0.00e+00 0.00e+00 0.00e+00 1.44e-03 0.00e+00 0.00e+00]
+ [0.00e+00 0.00e+00 0.00e+00 0.00e+00 4.22e-05 0.00e+00]
+ [0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 1.94e-05]]
+
+#  -LogLkl	1e+02omega_b    omega_cdm       n_s             1e+09A_s        h               tau_reio        z_reio          Omega_Lambda    
+1  9997.44	2.259803e+00	1.119801e-01	9.632183e-01	2.460415e+00	6.931952e-01	7.730484e-02	9.649429e+00	7.198449e-01	
+1  5939.85	2.267569e+00	1.132463e-01	9.589881e-01	2.422457e+00	6.977620e-01	8.239837e-02	1.010812e+01	7.207399e-01	
+2  4410.4	2.257515e+00	1.162843e-01	9.608155e-01	2.399817e+00	6.970618e-01	8.127618e-02	1.011374e+01	7.141332e-01	
+1  3920.94	2.265066e+00	1.156828e-01	9.703588e-01	2.383772e+00	6.926017e-01	8.535529e-02	1.043100e+01	7.115361e-01	
+
+#  5 steps done, acceptance rate: 0.8
+ /!\ The acceptance rate is above 0.6, which means you might have difficulties
+     exploring the entire parameter space. Try analysing these chains, and use
+     the output covariance matrix to decrease the acceptance rate to a value
+     between 0.2 and 0.4 (roughly).
